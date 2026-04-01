@@ -1,3 +1,4 @@
+import datetime
 try:
     with open("estoque.txt","r") as arquivo:
         estoque_atual = int(arquivo.read())
@@ -24,13 +25,15 @@ while True:
 
         with open("estoque.txt", "w") as arquivo:
             arquivo.write(str(estoque_atual))
-
+        agora=    datetime.datetime.now().strftime("%D/%M/%Y, %H:%M:%S")
+        relatorio= f"[{agora}]:{movimentacao} |EstoqueFinal:{estoque_atual}\n"
+        with open ("historico.txt","a")as arquivo_hist:
+            arquivo_hist.write(relatorio)    
         if estoque_atual >= limite_maximo:
             print("❌ STATUS: SETOR LOTADO! PARE O DESCARREGAMENTO.")
         elif estoque_atual >= alerta_proximo:
             print("⚠ STATUS: ATENCAO! ESTOQUE QUASE CHEIO!")
         else:
             print("✅ STATUS: LIBERADO. PODE CONTINUAR.")
-
     except ValueError:
         print("⚠ ERRO: Por favor, digite apenas NUMEROS inteiros!")
